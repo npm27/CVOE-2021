@@ -2,6 +2,7 @@
 ##libraries
 library(tidyverse)
 library(vecsets)
+library(reshape)
 
 ##read in data
 keeps = read.csv("Good Subjects.csv")
@@ -51,7 +52,7 @@ RT = subset(combined,
 #drop unused columns
 RT = RT[ , -c(1, 3:11, 13:20)]
 
-####do the thing####
+####compute the vincentiles####
 num_vins = 6 # how many vincentiles do you want
 
 data3 = RT %>% group_by(Subject, type) %>% 
@@ -60,6 +61,47 @@ data3 = RT %>% group_by(Subject, type) %>%
   summarize(mean = mean(RT, na.rm = T))
 
 ##Okay, get the mean
-tapply(data3$mean, list(data3$type, data3$bin), mean)
+means = tapply(data3$mean, list(data3$type, data3$bin), mean)
 
 length(unique(data3$Subject))
+
+##95%CIs
+sds = tapply(data3$mean, list(data3$type, data3$bin), sd)
+CI = (sds / sqrt(length(unique(data3$Subject)))) * 1.96
+
+uppers = means + CI
+lowers = means - CI
+
+####now format and write to file for making plot####
+##Means
+means2 = t(means)
+means2 = as.data.frame(means2)
+means2$bin = rep(1:nrow(means2))
+
+means_long = melt(means2,
+                  id.vars = "bin")
+colnames(means_long)[2:3] = c("Trial_Type", "Average")
+
+##upper CI
+upper2 = t(uppers)
+upper2 = as.data.frame(upper2)
+upper2$bin = rep(1:nrow(upper2))
+
+upper_long = melt(upper2,
+                  id.vars = "bin")
+colnames(upper_long)[2:3] = c("Trial_Type", "Upper")
+
+##Lower CI
+lower2 = t(lowers)
+lower2 = as.data.frame(lower2)
+lower2$bin = rep(1:nrow(lower2))
+
+lower_long = melt(lower2,
+                  id.vars = "bin")
+colnames(lower_long)[2:3] = c("Trial_Type", "Lower")
+
+##combined and write to file
+Final = cbind(means_long, upper_long, lower_long)
+Final = Final[ , -c(4:5, 7:8)]
+
+write.csv(Final, file = "vincentiles.csv", row.names = F)
