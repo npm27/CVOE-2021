@@ -10,12 +10,10 @@ dat['diff2'] = dat['diff'].div(2)
 
 ##set up the initial plot
 fig = plt.figure()
-fig.set_size_inches(11,8)
+fig.set_size_inches(13,9)
 
-major_ticks = np.arange(0, 101, 20)
-
-fig.text(0.5, 0.04, 'Bin', ha = 'center', fontsize=18)
-fig.text(0.04, 0.5, 'RT', va = 'center', rotation='vertical', fontsize=18)
+##Make the subplots
+ax1 = fig.add_subplot(1, 1, 1)
 
 ##might need to subset on trial type
 pure = dat[dat['Trial_Type'] == "pure"]
@@ -28,58 +26,45 @@ rand_switch = dat[dat['Trial_Type'] == "rand_switch"]
 x1 = pure.bin.values
 y1 = pure.Average.values
 
-fig.plot(x1, y1, marker = '.', color = 'k')
+ax1.plot(x1, y1, marker = '.', color = 'k', label='Pure')
+ax1.errorbar(x1, y1, yerr = (pure['diff2']), fmt='none', c= 'k', capsize=5)
 
-fig.set_xticks(major_ticks)
-fig.set_yticks(major_ticks)
+##Non-switch alt
+x2 = alt_ns.bin.values
+y2 = alt_ns.Average.values
 
+ax1.plot(x2, y2, marker = 's', color = 'navy', label='Alt Non-Switch')
+ax1.errorbar(x2, y2, yerr = (alt_ns['diff2']), fmt='none', c= 'navy', capsize=5)
 
-fig.errorbar(x1, y1, yerr = (pure['diff2']), fmt='none', c= 'k', capsize=5)
+##Switch alt
+x3 = alt_switch.bin.values
+y3 = alt_switch.Average.values
 
-##backward
-x2 = datB.JOL_Bin.values
-y2 = datB.Average.values
+ax1.plot(x3, y3, marker = 's', color = 'dodgerblue', label='Alt Switch')
+ax1.errorbar(x3, y3, yerr = (alt_switch['diff2']), fmt='none', c= 'dodgerblue', capsize=5)
 
-ax2.plot(dot_line, 'k--')
-ax2.plot(x2, y2, marker = '.', color = 'k')
+##rand ns
+x4 = rand_ns.bin.values
+y4 = rand_ns.Average.values
 
-ax2.set_xticks(major_ticks)
-ax2.set_yticks(major_ticks)
+ax1.plot(x4, y4, marker = 'v', color = 'navy', label='Random Non-Switch')
+ax1.errorbar(x4, y4, yerr = (rand_ns['diff2']), fmt='none', c= 'navy', capsize=5)
 
-ax2.set_title("Backward", fontsize = 16)
+##rand switch
+x5 = rand_switch.bin.values
+y5 = rand_switch.Average.values
 
-ax2.errorbar(x2, y2, yerr=(datB['diff2']), fmt='none', c= 'k', capsize=5)
+ax1.plot(x5, y5, marker = 'v', color = 'dodgerblue', label='Random Switch')
+ax1.errorbar(x5, y5, yerr = (rand_switch['diff2']), fmt='none', c= 'dodgerblue', capsize=5)
 
-##symmetrical
-x3 = datS.JOL_Bin.values
-y3 = datS.Average.values
+##Make the plot spiffy
+ax1.set_title('Vincentile Bins', fontsize = 20, fontweight = 'bold')
+ax1.set_ylabel('Mean RT (ms)', fontsize = 18)
+ax1.set_xlabel('Vincentile Bin', fontsize = 18)
+ax1.tick_params(axis='x', labelsize = 16)
+ax1.tick_params(axis='y', labelsize = 16)
 
-ax3.plot(dot_line, 'k--')
-ax3.plot(x3, y3, marker = '.', color = 'k')
+ax1.legend()
 
-ax3.set_xticks(major_ticks)
-ax3.set_yticks(major_ticks)
-
-ax3.set_title("Symmetrical", fontsize = 16)
-
-ax3.errorbar(x3, y3, yerr=(datS['diff2']), fmt='none', c= 'k', capsize=5)
-
-##unrelated
-x4 = datU.JOL_Bin.values
-y4 = datU.Average.values
-
-ax4.plot(dot_line, 'k--')
-ax4.plot(x4, y4, marker = '.', color = 'k')
-
-ax4.set_xticks(major_ticks)
-ax4.set_yticks(major_ticks)
-
-ax4.set_title("Unrelated", fontsize = 16)
-
-ax4.errorbar(x4, y4, yerr=(datU['diff2']), fmt='none', c= 'k', capsize=5)
-
-fig.suptitle('Item-Specific Group', fontsize=20)
-
-##save figure
 fig
-fig.savefig('Ex1_IS_smoothed2.png')
+fig.savefig('YA_Vincentiles.png')
