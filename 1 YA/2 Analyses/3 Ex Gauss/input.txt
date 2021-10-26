@@ -1,0 +1,31 @@
+#Set the file path
+1 ya\ya alt non switch errors
+#Name the output file
+ya_alt_nse
+#Set the measurement unit
+0.0001
+#Select 1 for normal mode. I assume normal mode is what I want...
+1
+#Proportional convergence tolerence for the objective function value
+#the fuck does that mean?
+
+#Proportional convergence tolerance for the L-norm of the paremter vector
+#See line ten...
+
+#Specify maximumn number of iterations
+#Maybe 50 is a good starting point? Can always up this
+50
+#Set the fit -- select 1 for ex-gaussian
+1
+#sample statistic to use -- setting it to 2 becuase we want to use QMP
+2
+#Data aggregation level
+#I think this is where I'm setting the number of divisions (we want six, so heptiles?)
+#selecting option three so I can set my own cut points below
+3
+#set the first cut point, has to be 0.0
+0.0
+#specify all cut points
+#not sure if these need commas
+0.0 0.2 0.4 0.6 0.8 1.0
+
