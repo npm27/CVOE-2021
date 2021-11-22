@@ -6,7 +6,7 @@ library(reshape)
 
 ##read in data
 keeps = read.csv("Good Subjects.csv")
-dat = read.csv("data/Final_CVOE_Trimmed 10_25_21.csv")
+dat = read.csv("data/Final_CVOE_Trimmed 11_20_21.csv")
 
 ##cut out participants we aren't using
 dat2 = dat[(dat$Subject %in% keeps$Sub.ID), ]
@@ -104,4 +104,4 @@ colnames(lower_long)[2:3] = c("Trial_Type", "Lower")
 Final = cbind(means_long, upper_long, lower_long)
 Final = Final[ , -c(4:5, 7:8)]
 
-#write.csv(Final, file = "vincentiles.csv", row.names = F)
+#write.csv(Final, file = "Plots/vincentiles.csv", row.names = F)

@@ -2,7 +2,7 @@
 ##libraries
 library(retimes)
 keeps = read.csv("Good Subjects.csv")
-dat = read.csv("data/Final_CVOE_Trimmed 10_25_21.csv")
+dat = read.csv("data/Final_CVOE_Trimmed 11_20_21.csv")
 
 ##cut out participants we aren't using
 dat2 = dat[(dat$Subject %in% keeps$Sub.ID), ]
@@ -221,4 +221,4 @@ final_rand_switch = data.frame(parameter, Average, Upper, Lower, Trial_Type)
 
 ##Combine and write to file
 final = rbind(final_pure, final_alt_ns, final_alt_switch, final_rand_ns, final_rand_switch)
-#write.csv(final, file = "ex_gauss_ya.csv", row.names = F)
+#write.csv(final, file = "Plots/ex_gauss_ya.csv", row.names = F)
