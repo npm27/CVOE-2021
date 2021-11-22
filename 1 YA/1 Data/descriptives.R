@@ -1,5 +1,7 @@
 ##Load data
-combined = read.csv("Final_CVOE_Trimmed 9_22.csv")
+combined = read.csv("2 Final/Final_CVOE_Trimmed 11_20_21.csv")
+
+combined = na.omit(combined)
 
 rt = subset(combined,
             combined$score2 == 1)
@@ -41,13 +43,6 @@ tapply(combined$RT,
 tapply(combined$score,
        list(combined$block_type, combined$Congruent), mean)
 
-##so screens/trimming
-##trim at the subject level, not overall average (do it within subjects)
-
-##transform rts to z
-##cost as a function of trial effects?
-##look at it as function of subject
-
 ####check by subject####
 ##overall
 m1 = tapply(combined$score2,
@@ -63,14 +58,14 @@ m2 = tapply(yes.switch$score2,
        list(yes.switch$block_type, yes.switch$Subject), mean)
 
 switch_alt_run_m = list(m2[1, ])
-switch_shuff_m = list(m2[4, ])
+switch_shuff_m = list(m2[2, ])
 
 ##non-switch
 m3 = tapply(no.switch$score2,
        list(no.switch$block_type, no.switch$Subject), mean)
 
 no_switch_alt_run_m = list(m3[1, ])
-no_switch_shuff_m = list(m3[4, ])
+no_switch_shuff_m = list(m3[2, ])
 
 ##put all the output into a dataframe
 #first need to get the sub ID. I could type it all out, but that's going to be too time consuming once this gets big
@@ -97,7 +92,7 @@ colnames(output)[2:9] = c("pure_cv_m", "pure_oe_m", "altrun_m",
                             "no_switch_altrun_m",
                            "no_switch_shuff_m")
 
-#write.csv(output, file = "CVOE_Means_9_24.csv", row.names = FALSE)
+#write.csv(output, file = "CVOE_Means_10_3_21.csv", row.names = FALSE)
 
 ####set up output####
 ##mean errors
@@ -126,14 +121,14 @@ output_errors = data.frame(subID, mean_cv_errors, mean_oe_errors, pure_block_err
                            global_cost_alt, global_cost_rand,
                            local_switch_cost_alt, local_switch_cost_rand)
 
-#write.csv(output_errors, file = "Output Mean Errors 9_24.csv", row.names = FALSE)
+#write.csv(output_errors, file = "Output Mean Errors 11_20_21.csv", row.names = FALSE)
 
 ##clear the environment
 rm(list = ls())
 
 ####RTs####
 ##read in trimmed data
-trimmed = read.csv("Final_CVOE_Trimmed 9_22.csv")
+trimmed = read.csv("2 Final/Final_CVOE_Trimmed 11_20_21.csv")
 summary(trimmed)
 
 rt = subset(trimmed, #get only the correct responses for RTs
@@ -159,14 +154,14 @@ rt2 = tapply(yes.switch.rt$RT,
              list(yes.switch.rt$block_type, yes.switch.rt$Subject), mean)
 
 switch_alt_run_rt = list(rt2[1, ])
-switch_shuff_rt = list(rt2[4, ])
+switch_shuff_rt = list(rt2[2, ])
 
 ##non-switch
 rt3 = tapply(no.switch.rt$RT,
              list(no.switch.rt$block_type, no.switch.rt$Subject), mean)
 
 no_switch_alt_run_rt = list(rt3[1, ])
-no_switch_shuff_rt = list(rt3[4, ])
+no_switch_shuff_rt = list(rt3[2, ])
 
 #table(dat)
 
@@ -225,7 +220,7 @@ output_RT = data.frame(subID, mean_cv_rt, mean_oe_rt, pure_RT,
                        global_cost_alt_RT, global_cost_rand_RT,
                        local_switch_cost_alt_RT, local_switch_cost_rand_RT)
 
-#write.csv(output_RT, file = "Output RTs 9_22.csv", row.names = FALSE)
+#write.csv(output_RT, file = "Output RTs 11_20_21.csv", row.names = FALSE)
 
 ####Zscore things####
 
@@ -233,7 +228,7 @@ output_RT = data.frame(subID, mean_cv_rt, mean_oe_rt, pure_RT,
 rm(list = ls())
 
 ##read in trimmed data
-trimmed = read.csv("Final_CVOE_Trimmed 9_22.csv")
+trimmed = read.csv("Final_CVOE_Trimmed 10_3_21.csv")
 summary(trimmed)
 
 rt = subset(trimmed, #get only the correct responses for RTs
@@ -259,14 +254,14 @@ rt2 = tapply(yes.switch.rt$zRT,
              list(yes.switch.rt$block_type, yes.switch.rt$Subject), mean)
 
 switch_alt_run_rt = list(rt2[1, ])
-switch_shuff_rt = list(rt2[4, ])
+switch_shuff_rt = list(rt2[2, ])
 
 ##non-switch
 rt3 = tapply(no.switch.rt$zRT,
              list(no.switch.rt$block_type, no.switch.rt$Subject), mean)
 
 no_switch_alt_run_rt = list(rt3[1, ])
-no_switch_shuff_rt = list(rt3[4, ])
+no_switch_shuff_rt = list(rt3[2, ])
 
 #table(dat)
 
@@ -325,4 +320,4 @@ output_zRT = data.frame(subID, mean_cv_zrt, mean_oe_zrt, pure_zRT,
                        global_cost_alt_zRT, global_cost_rand_zRT,
                        local_switch_cost_alt_zRT, local_switch_cost_rand_zRT)
 
-#write.csv(output_zRT, file = "Output zRTs 10_12.csv", row.names = FALSE)
+#write.csv(output_zRT, file = "Output zRTs 10_3_21.csv", row.names = FALSE)
