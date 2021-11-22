@@ -33,29 +33,29 @@ ax1.errorbar(x1, y1, yerr = (pure['diff2']), fmt='none', c= 'k', capsize=5)
 x2 = alt_ns.bin.values
 y2 = alt_ns.Average.values
 
-ax1.plot(x2, y2, marker = 's', color = 'navy', label='Alt Non-Switch')
-ax1.errorbar(x2, y2, yerr = (alt_ns['diff2']), fmt='none', c= 'navy', capsize=5)
+ax1.plot(x2, y2, marker = 's', color = 'dimgray', label='Alt Non-Switch')
+ax1.errorbar(x2, y2, yerr = (alt_ns['diff2']), fmt='none', c= 'dimgray', capsize=5)
 
 ##Switch alt
 x3 = alt_switch.bin.values
 y3 = alt_switch.Average.values
 
-ax1.plot(x3, y3, marker = 's', color = 'dodgerblue', label='Alt Switch')
-ax1.errorbar(x3, y3, yerr = (alt_switch['diff2']), fmt='none', c= 'dodgerblue', capsize=5)
+ax1.plot(x3, y3, marker = 's', color = 'darkgray', label='Alt Switch')
+ax1.errorbar(x3, y3, yerr = (alt_switch['diff2']), fmt='none', c= 'darkgray', capsize=5)
 
 ##rand ns
 x4 = rand_ns.bin.values
 y4 = rand_ns.Average.values
 
-ax1.plot(x4, y4, marker = 'v', color = 'navy', label='Random Non-Switch')
-ax1.errorbar(x4, y4, yerr = (rand_ns['diff2']), fmt='none', c= 'navy', capsize=5)
+ax1.plot(x4, y4,  '--', marker = 'v', color = 'dimgray', label='Random Non-Switch')
+ax1.errorbar(x4, y4, yerr = (rand_ns['diff2']), fmt='none', c= 'dimgray', capsize=5)
 
 ##rand switch
 x5 = rand_switch.bin.values
 y5 = rand_switch.Average.values
 
-ax1.plot(x5, y5, marker = 'v', color = 'dodgerblue', label='Random Switch')
-ax1.errorbar(x5, y5, yerr = (rand_switch['diff2']), fmt='none', c= 'dodgerblue', capsize=5)
+ax1.plot(x5, y5, '--', marker = 'v', color = 'darkgray', label='Random Switch')
+ax1.errorbar(x5, y5, yerr = (rand_switch['diff2']), fmt='none', c= 'darkgray', capsize=5)
 
 ##Make the plot spiffy
 ax1.set_title('Vincentile Bins', fontsize = 20, fontweight = 'bold')
@@ -67,4 +67,4 @@ ax1.tick_params(axis='y', labelsize = 16)
 ax1.legend()
 
 fig
-fig.savefig('YA_Vincentiles.png')
+#fig.savefig('YA_Vincentiles.png')
