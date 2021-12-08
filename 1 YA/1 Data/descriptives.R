@@ -1,5 +1,5 @@
 ##Load data
-combined = read.csv("2 Final/Final_CVOE_Trimmed 11_20_21.csv")
+combined = read.csv("Final_CVOE_Trimmed 11_20_21.csv")
 
 combined = na.omit(combined)
 
@@ -94,6 +94,19 @@ colnames(output)[2:9] = c("pure_cv_m", "pure_oe_m", "altrun_m",
 
 #write.csv(output, file = "CVOE_Means_10_3_21.csv", row.names = FALSE)
 
+##get the sds
+sd1 = tapply(combined$score2,
+            list(combined$block_type, combined$Subject), sd)
+
+pure_cv_sd = list(sd1[2, ])
+pure_oe_sd = list(sd1[3, ])
+
+sds = data.frame(subID, pure_cv_sd, pure_oe_sd)
+
+colnames(sds)[2:3] = c("Pure_cv", "pure_oe")
+
+#write.csv(sds, file = "CVOE_PURE_SDS.csv", row.names = FALSE)
+
 ####set up output####
 ##mean errors
 mean_cv_errors = 1 - output$pure_cv_m
@@ -123,12 +136,31 @@ output_errors = data.frame(subID, mean_cv_errors, mean_oe_errors, pure_block_err
 
 #write.csv(output_errors, file = "Output Mean Errors 11_20_21.csv", row.names = FALSE)
 
+##and z the error rates
+output_errors$z_cv = scale(output_errors$mean_cv_errors)
+output_errors$z_oe = scale(output_errors$mean_oe_errors)
+output_errors$z_alt_switch = scale(output_errors$alt_switch_errors)
+output_errors$z_alt_ns = scale(output_errors$alt_non_switch_errors)
+output_errors$z_rand_switch = scale(output_errors$rand_switch_errors)
+output_errors$z_rand_ns = scale(output_errors$rand_non_switch_errors)
+
+#remove participant
+output_errors = subset(output_errors,
+                       output_errors$subID != 36)
+
+##remove anyone more (or less) than three sds across trial type
+cleaned = subset(output_errors,
+                 output_errors$z_cv < 3 & output_errors$z_oe < 3 & output_errors$z_alt_switch < 3 &
+                         output_errors$z_alt_ns < 3 & output_errors$z_rand_switch < 3 & output_errors$z_rand_ns < 3)
+
+#write.csv(cleaned, file = "Output Mean Errors cleaned 12_8_21.csv", row.names = FALSE)
+
 ##clear the environment
 rm(list = ls())
 
 ####RTs####
 ##read in trimmed data
-trimmed = read.csv("2 Final/Final_CVOE_Trimmed 11_20_21.csv")
+trimmed = read.csv("Final_CVOE_Trimmed 11_20_21.csv")
 summary(trimmed)
 
 rt = subset(trimmed, #get only the correct responses for RTs
@@ -220,7 +252,12 @@ output_RT = data.frame(subID, mean_cv_rt, mean_oe_rt, pure_RT,
                        global_cost_alt_RT, global_cost_rand_RT,
                        local_switch_cost_alt_RT, local_switch_cost_rand_RT)
 
-#write.csv(output_RT, file = "Output RTs 11_20_21.csv", row.names = FALSE)
+#get list of subjects to remove
+keeps = read.csv("Output Mean Errors cleaned 12_8_21.csv")
+
+output_RT2 = output_RT[(output_RT$subID %in% keeps$subID), ]
+
+#write.csv(output_RT2, file = "Output RTs 11_20_21.csv", row.names = FALSE)
 
 ####Zscore things####
 
