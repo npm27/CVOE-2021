@@ -58,7 +58,7 @@ ax1.plot(x5, y5, '--', marker = 'v', color = 'darkgray', label='Random Switch')
 ax1.errorbar(x5, y5, yerr = (rand_switch['diff2']), fmt='none', c= 'darkgray', capsize=5)
 
 ##Make the plot spiffy
-ax1.set_title('Vincentile Bins', fontsize = 20, fontweight = 'bold')
+ax1.set_title('Pure, Switch, and Non-Switch Trials', fontsize = 20, fontweight = 'bold')
 ax1.set_ylabel('Mean RT (ms)', fontsize = 18)
 ax1.set_xlabel('Vincentile Bin', fontsize = 18)
 ax1.tick_params(axis='x', labelsize = 16)
