@@ -85,6 +85,8 @@ colnames(error2_alt.long)[3:4] = c("Cost", "Error")
 #combine
 error_costs = rbind(error2_alt.long, error2_rand.long)
 
+error_costs$Error = error_costs$Error * 100
+
 ezANOVA(error_costs,
         within = .(presentation, Cost),
         dv = Error,
