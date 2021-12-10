@@ -12,8 +12,8 @@ RTs = read.csv("Data/YA RTs.csv")
 summary(errors)
 
 ##need pure vs switch
-error1 = errors[ , c(1, 4:8)]
-error2 = errors[ , c(1, 9:12)]
+error1 = errors[ , c(1, 4:8)] #trials
+error2 = errors[ , c(1, 9:12)] #local vs global
 
 ##reshape for anovas
 error1.long = melt(data.frame(error1), id.vars = "subID")
@@ -26,16 +26,25 @@ colnames(error1.long)[3] = "Error"
 colnames(error2.long)[3] = "Error"
 
 ####ERROR ANOVAS####
+error1.long$Error = error1.long$Error * 100
+
 ##PURE VS SWITCH
-ezANOVA(error1.long,
-        within = Type,
-        dv = Error,
-        wid = subID,
-        type = 3,
-        detailed = T) #main effect of type
+model1 = ezANOVA(error1.long,
+                within = Type,
+                dv = Error,
+                wid = subID,
+                type = 3,
+                detailed = T) #main effect of type
+
+model1$ANOVA$MSE = model1$ANOVA$SSd/model1$ANOVA$DFd
+model1$ANOVA$MSE
+
+model1
 
 ##Post-hocs
 tapply(error1.long$Error, error1.long$Type, mean) #main effect type
+
+
 
 ##Switch costs
 ##anova time!
