@@ -48,6 +48,7 @@ tapply(error1.long$Error, error1.long$Type, mean) #main effect type
 
 ##Switch costs
 ##anova time!
+#this is the overall
 ezANOVA(error2.long,
         within = Type,
         dv = Error,
@@ -55,7 +56,47 @@ ezANOVA(error2.long,
         type = 3,
         detailed = T)
 
-####Error Post-hocs####
+#what about a 2x2 (cost x presentation)
+
+#start w/ rand
+error2_rand = error2[ , c(1, 3, 5)]
+
+colnames(error2_rand)[2:3] = c("global", "local")
+
+error2_rand$presentation = rep("rand")
+
+error2_rand.long = melt(error2_rand,
+                        measure.vars = c("global", "local"))
+
+colnames(error2_rand.long)[3:4] = c("Cost", "Error")
+
+#now do alt
+error2_alt = error2[ , c(1, 2, 4)]
+
+colnames(error2_alt)[2:3] = c("global", "local")
+
+error2_alt$presentation = rep("alt")
+
+error2_alt.long = melt(error2_alt,
+                        measure.vars = c("global", "local"))
+
+colnames(error2_alt.long)[3:4] = c("Cost", "Error")
+
+#combine
+error_costs = rbind(error2_alt.long, error2_rand.long)
+
+ezANOVA(error_costs,
+        within = .(presentation, Cost),
+        dv = Error,
+        wid = subID,
+        type = 3,
+        detailed = T)
+
+#main effect of cost type
+#marginal effect of presentation mode
+#no interaction
+
+####Error costs Post-hocs####
 tapply(error2.long$Error, error2.long$Type, mean) #main effect type
 
 ####RT ANOVAs####
