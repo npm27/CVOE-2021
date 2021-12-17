@@ -44,18 +44,91 @@ model1
 ##Post-hocs
 tapply(error1.long$Error, error1.long$Type, mean) #main effect type
 
+#set up for t-tests
+errors_ph = cast(error1.long, subID ~ Type, mean)
 
+###run the t-tests
+##pure
+#pure vs alt switch
+temp = t.test(errors_ph$pure_block_errors, errors_ph$alt_switch_errors, paired = T, p.adjust.methods = "bonferroni", var.equal = T)
+temp
+round(temp$p.value, 3)
+temp$statistic
+(temp$conf.int[2] - temp$conf.int[1]) / 3.92 #SIG
 
-##Switch costs
-##anova time!
-#this is the overall
-ezANOVA(error2.long,
-        within = Type,
-        dv = Error,
-        wid = subID,
-        type = 3,
-        detailed = T)
+#pure vs alt ns
+temp = t.test(errors_ph$pure_block_errors, errors_ph$alt_non_switch_errors, paired = T, p.adjust.methods = "bonferroni", var.equal = T)
+temp
+round(temp$p.value, 3)
+temp$statistic
+(temp$conf.int[2] - temp$conf.int[1]) / 3.92 #NS
 
+#pure vs rand switch
+temp = t.test(errors_ph$pure_block_errors, errors_ph$rand_switch_errors, paired = T, p.adjust.methods = "bonferroni", var.equal = T)
+temp
+round(temp$p.value, 3)
+temp$statistic
+(temp$conf.int[2] - temp$conf.int[1]) / 3.92 #SIG
+
+#pure vs rand ns
+temp = t.test(errors_ph$pure_block_errors, errors_ph$rand_non_switch_errors, paired = T, p.adjust.methods = "bonferroni", var.equal = T)
+temp
+round(temp$p.value, 3)
+temp$statistic
+(temp$conf.int[2] - temp$conf.int[1]) / 3.92 #NS
+
+#pure groups differ from switch trials but not non-switch (ns) trials
+
+##alt_switch
+#alt_switch vs alt_ns
+temp = t.test(errors_ph$alt_switch_errors, errors_ph$alt_non_switch_errors, paired = T, p.adjust.methods = "bonferroni", var.equal = T)
+temp
+round(temp$p.value, 3)
+temp$statistic
+(temp$conf.int[2] - temp$conf.int[1]) / 3.92 #SIG
+
+#alt_switch vs rand switch
+temp = t.test(errors_ph$alt_switch_errors, errors_ph$rand_switch_errors, paired = T, p.adjust.methods = "bonferroni", var.equal = T)
+temp
+round(temp$p.value, 3)
+temp$statistic
+(temp$conf.int[2] - temp$conf.int[1]) / 3.92 #marginal, p = .06
+
+#alt_switch vs rand ns
+temp = t.test(errors_ph$alt_switch_errors, errors_ph$rand_non_switch_errors, paired = T, p.adjust.methods = "bonferroni", var.equal = T)
+temp
+round(temp$p.value, 3)
+temp$statistic
+(temp$conf.int[2] - temp$conf.int[1]) / 3.92 #SIG
+
+##alt_ns
+#alt_ns vs rand switch
+temp = t.test(errors_ph$alt_non_switch_errors, errors_ph$rand_switch_errors, paired = T, p.adjust.methods = "bonferroni", var.equal = T)
+temp
+round(temp$p.value, 3)
+temp$statistic
+(temp$conf.int[2] - temp$conf.int[1]) / 3.92 #SIG
+
+#alt_ns vs rand_ns
+temp = t.test(errors_ph$alt_non_switch_errors, errors_ph$rand_non_switch_errors, paired = T, p.adjust.methods = "bonferroni", var.equal = T)
+temp
+round(temp$p.value, 3)
+temp$statistic
+(temp$conf.int[2] - temp$conf.int[1]) / 3.92 #NS
+
+##rand_switch
+#Rand switch vs rand ns
+temp = t.test(errors_ph$rand_switch_errors, errors_ph$rand_non_switch_errors, paired = T, p.adjust.methods = "bonferroni", var.equal = T)
+temp
+round(temp$p.value, 3)
+temp$statistic
+(temp$conf.int[2] - temp$conf.int[1]) / 3.92 #Sig
+
+##get sds for computing d
+
+##set up for pbics
+
+####Switch costs - Errors####
 #what about a 2x2 (cost x presentation)
 
 #start w/ rand
@@ -99,7 +172,10 @@ ezANOVA(error_costs,
 #no interaction
 
 ####Error costs Post-hocs####
-tapply(error2.long$Error, error2.long$Type, mean) #main effect type
+tapply(error_costs$Error, error_costs$presentation, mean)
+tapply(error_costs$Error, error_costs$Cost, mean)
+
+tapply(error_costs$Error, list(error_costs$presentation, error_costs$Cost), mean) #interaction
 
 ####RT ANOVAs####
 summary(RTs)
