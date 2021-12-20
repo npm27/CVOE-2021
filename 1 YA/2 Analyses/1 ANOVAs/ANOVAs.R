@@ -54,28 +54,49 @@ temp = t.test(errors_ph$pure_block_errors, errors_ph$alt_switch_errors, paired =
 temp
 round(temp$p.value, 3)
 temp$statistic
-(temp$conf.int[2] - temp$conf.int[1]) / 3.92 #SIG
+(temp$conf.int[2] - temp$conf.int[1]) / 3.92 #SIG, t = 6.28
 
 #pure vs alt ns
 temp = t.test(errors_ph$pure_block_errors, errors_ph$alt_non_switch_errors, paired = T, p.adjust.methods = "bonferroni", var.equal = T)
 temp
 round(temp$p.value, 3)
 temp$statistic
-(temp$conf.int[2] - temp$conf.int[1]) / 3.92 #NS
+(temp$conf.int[2] - temp$conf.int[1]) / 3.92 #NS t = .610
 
 #pure vs rand switch
 temp = t.test(errors_ph$pure_block_errors, errors_ph$rand_switch_errors, paired = T, p.adjust.methods = "bonferroni", var.equal = T)
 temp
 round(temp$p.value, 3)
 temp$statistic
-(temp$conf.int[2] - temp$conf.int[1]) / 3.92 #SIG
+(temp$conf.int[2] - temp$conf.int[1]) / 3.92 #SIG t = 4.65
 
 #pure vs rand ns
 temp = t.test(errors_ph$pure_block_errors, errors_ph$rand_non_switch_errors, paired = T, p.adjust.methods = "bonferroni", var.equal = T)
 temp
 round(temp$p.value, 3)
 temp$statistic
-(temp$conf.int[2] - temp$conf.int[1]) / 3.92 #NS
+(temp$conf.int[2] - temp$conf.int[1]) / 3.92 #NS t = .0703
+
+##pbic #need cols 1, 2, 6
+pbic1 = errors_ph[ , c(1, 2)]
+pbic1$trial = rep("pure")
+
+colnames(pbic1)[2] = "error"
+
+pbic2 = errors_ph[ , c(1, 6)]
+pbic2$trial = rep("rand_ns")
+
+colnames(pbic2)[2] = "error"
+
+pbic3 = rbind(pbic1, pbic2)
+
+model_pbic = ezANOVA(pbic3,
+                     dv = error,
+                     wid = subID,
+                     within = trial,
+                     detailed = T,
+                     type = 3)
+model_pbic
 
 #pure groups differ from switch trials but not non-switch (ns) trials
 
@@ -85,7 +106,7 @@ temp = t.test(errors_ph$alt_switch_errors, errors_ph$alt_non_switch_errors, pair
 temp
 round(temp$p.value, 3)
 temp$statistic
-(temp$conf.int[2] - temp$conf.int[1]) / 3.92 #SIG
+(temp$conf.int[2] - temp$conf.int[1]) / 3.92 #SIG, t = 5.87
 
 #alt_switch vs rand switch
 temp = t.test(errors_ph$alt_switch_errors, errors_ph$rand_switch_errors, paired = T, p.adjust.methods = "bonferroni", var.equal = T)
@@ -94,12 +115,37 @@ round(temp$p.value, 3)
 temp$statistic
 (temp$conf.int[2] - temp$conf.int[1]) / 3.92 #marginal, p = .06
 
+##get means and sds for d
+mean(errors_ph$alt_switch_errors); mean(errors_ph$rand_switch_errors)
+sd(errors_ph$alt_switch_errors); sd(errors_ph$rand_switch_errors)
+
+##pbic #need cols 1, 3, 5
+pbic1 = errors_ph[ , c(1, 3)]
+pbic1$pres = rep("alt")
+
+colnames(pbic1)[2] = "cost"
+
+pbic2 = errors_ph[ , c(1, 5)]
+pbic2$pres = rep("rand")
+
+colnames(pbic2)[2] = "cost"
+
+pbic3 = rbind(pbic1, pbic2)
+
+model_pbic = ezANOVA(pbic3,
+                     dv = cost,
+                     wid = subID,
+                     within = pres,
+                     detailed = T,
+                     type = 3)
+model_pbic
+
 #alt_switch vs rand ns
 temp = t.test(errors_ph$alt_switch_errors, errors_ph$rand_non_switch_errors, paired = T, p.adjust.methods = "bonferroni", var.equal = T)
 temp
 round(temp$p.value, 3)
 temp$statistic
-(temp$conf.int[2] - temp$conf.int[1]) / 3.92 #SIG
+(temp$conf.int[2] - temp$conf.int[1]) / 3.92 #SIG, t = 6.72
 
 ##alt_ns
 #alt_ns vs rand switch
@@ -107,7 +153,11 @@ temp = t.test(errors_ph$alt_non_switch_errors, errors_ph$rand_switch_errors, pai
 temp
 round(temp$p.value, 3)
 temp$statistic
-(temp$conf.int[2] - temp$conf.int[1]) / 3.92 #SIG
+(temp$conf.int[2] - temp$conf.int[1]) / 3.92 #SIG, t = 3.63
+
+##get d
+mean(errors_ph$alt_non_switch_errors); mean(errors_ph$rand_switch_errors)
+sd(errors_ph$alt_non_switch_errors); sd(errors_ph$rand_switch_errors)
 
 #alt_ns vs rand_ns
 temp = t.test(errors_ph$alt_non_switch_errors, errors_ph$rand_non_switch_errors, paired = T, p.adjust.methods = "bonferroni", var.equal = T)
@@ -122,11 +172,7 @@ temp = t.test(errors_ph$rand_switch_errors, errors_ph$rand_non_switch_errors, pa
 temp
 round(temp$p.value, 3)
 temp$statistic
-(temp$conf.int[2] - temp$conf.int[1]) / 3.92 #Sig
-
-##get sds for computing d
-
-##set up for pbics
+(temp$conf.int[2] - temp$conf.int[1]) / 3.92 #Sig, t = 6.10
 
 ####Switch costs - Errors####
 #what about a 2x2 (cost x presentation)
@@ -160,12 +206,17 @@ error_costs = rbind(error2_alt.long, error2_rand.long)
 
 error_costs$Error = error_costs$Error * 100
 
-ezANOVA(error_costs,
-        within = .(presentation, Cost),
-        dv = Error,
-        wid = subID,
-        type = 3,
-        detailed = T)
+model2 = ezANOVA(error_costs,
+                within = .(presentation, Cost),
+                dv = Error,
+                wid = subID,
+                type = 3,
+                detailed = T)
+
+model2$ANOVA$MSE = model2$ANOVA$SSd/model2$ANOVA$DFd
+model2$ANOVA$MSE
+
+model2
 
 #main effect of cost type
 #marginal effect of presentation mode
@@ -192,15 +243,38 @@ colnames(RTs1.long)[2:3] = c("Type", "RTs")
 colnames(RTs2.long)[2:3] = c("Type", "RTs")
 
 ##anova time!
-ezANOVA(RTs1.long,
-        within = Type,
-        dv = RTs,
-        wid = subID,
-        type = 3,
-        detailed = T)
+model3 = ezANOVA(RTs1.long,
+                within = Type,
+                dv = RTs,
+                wid = subID,
+                type = 3,
+                detailed = T)
+
+model3$ANOVA$MSE = model3$ANOVA$SSd/model3$ANOVA$DFd
+model3$ANOVA$MSE
+
+model3
 
 ##Post-hocs
 tapply(RTs1.long$RTs, RTs1.long$Type, mean) #main effect type
+
+##run the t-tests
+#set up for t-tests
+Rts_ph = cast(RTs1.long, subID ~ Type, mean)
+
+##pure ####STOPPED HERE####
+#pure vs alt switch
+temp = t.test(errors_ph$pure_block_errors, errors_ph$alt_switch_errors, paired = T, p.adjust.methods = "bonferroni", var.equal = T)
+temp
+round(temp$p.value, 3)
+temp$statistic
+(temp$conf.int[2] - temp$conf.int[1]) / 3.92
+
+#pure vs alt ns
+
+#pure vs rand switch
+
+#pure vs rand ns
 
 ##Switch costs
 ##anova time!
