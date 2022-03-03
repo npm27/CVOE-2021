@@ -4,7 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 ##read in data
-dat = pd.read_csv("ex_gauss_overall.csv")
+dat = pd.read_csv("ex_gauss_3_2_22.csv")
 
 #make the 95% confidence intervals
 dat['diff'] = dat['Upper'].sub(dat['Lower']) #get the length of the bars
@@ -93,7 +93,9 @@ mci_t_conf2 = mci_t_conf.tolist() #convert to list
 
 ##set up the plot
 error_fig = plt.figure()
-error_fig.set_size_inches(12,20)
+error_fig.set_size_inches(20,18)
+
+error_fig.subplots_adjust(hspace=.40)
 
 ####FSet up plot####
 bars1 = dat_ya_m_average2
@@ -123,67 +125,70 @@ ax3 = error_fig.add_subplot(3, 1, 3)
 
 ####Plot Mu####
 ##make the plot
-rects1 = ax1.bar(r1, bars1, width = barwidth, yerr = ya_m_conf2, capsize = 3, color = 'w', edgecolor = 'k',
+rects1 = ax1.bar(r1, bars1, width = barwidth, yerr = ya_m_conf2, capsize = 3, color = 'Silver', edgecolor = 'k',
                 label ='Younger Adults')
 
-rects2 = ax1.bar(r2, bars2, width = barwidth, yerr = healthy_m_conf2, capsize = 3, color = 'silver', edgecolor = 'k',
+rects2 = ax1.bar(r2, bars2, width = barwidth, yerr = healthy_m_conf2, capsize = 3, color = 'Dodgerblue', edgecolor = 'k',
                 label = 'Healthy Older')
 
-rects3 = ax1.bar(r3, bars3, width = barwidth, yerr = mci_m_conf2, capsize = 3, color = 'dimgray', edgecolor = 'k',
+rects3 = ax1.bar(r3, bars3, width = barwidth, yerr = mci_m_conf2, capsize = 3, color = 'Navy', edgecolor = 'k',
                 label = 'MCI Older')
 
 ##Add labels, legend, and set tick marks
-ax1.set_title('Mu: Pure, Switch, and Non-Switch Trials', fontsize = 18)
-ax1.set_ylabel('RT (ms)', fontsize = 16)
-ax1.set_xlabel('Trial Type', fontsize = 16)
+ax1.set_title('Mu: Pure, Switch, and Non-Switch Trials', fontsize = 26, fontweight = "bold")
+ax1.set_ylabel('RT (ms)', fontsize = 20)
+ax1.set_xlabel('Trial Type', fontsize = 20)
 ax1.xaxis.labelpad = 7.5
 ax1.set_xticks(r2)
 ax1.tick_params(axis='x', which = 'major', pad = 2.5) #controls how far labels are from axis
-ax1.set_xticklabels(('Pure', 'Nonswitch Alt Run', 'Nonswitch Rand', 'Switch Alt Run', 'Switch Rand'), fontsize = 10)
+ax1.set_xticklabels(('Pure', 'NS Alt Run', 'NS Rand', 'Switch Alt Run', 'Switch Rand'), fontsize = 20)
 ax1.legend()
 
 ####Plot sigma####
 ##make the plot
-rects1 = ax2.bar(r1, bars4, width = barwidth, yerr = ya_s_conf2, capsize = 3, color = 'w', edgecolor = 'k',
+rects1 = ax2.bar(r1, bars4, width = barwidth, yerr = ya_s_conf2, capsize = 3, color = 'Silver', edgecolor = 'k',
                 label ='Younger Adults')
 
-rects2 = ax2.bar(r2, bars5, width = barwidth, yerr = healthy_s_conf2, capsize = 3, color = 'silver', edgecolor = 'k',
+rects2 = ax2.bar(r2, bars5, width = barwidth, yerr = healthy_s_conf2, capsize = 3, color = 'Dodgerblue', edgecolor = 'k',
                 label = 'Healthy Older')
 
-rects3 = ax2.bar(r3, bars6, width = barwidth, yerr = mci_s_conf2, capsize = 3, color = 'dimgray', edgecolor = 'k',
+rects3 = ax2.bar(r3, bars6, width = barwidth, yerr = mci_s_conf2, capsize = 3, color = 'Navy', edgecolor = 'k',
                 label = 'MCI Older')
 
 ##Add labels, legend, and set tick marks
-ax2.set_title('Sigma: Pure, Switch, and Non-Switch Trials', fontsize = 18)
-ax2.set_ylabel('RT (ms)', fontsize = 16)
-ax2.set_xlabel('Trial Type', fontsize = 16)
+ax2.set_title('Sigma: Pure, Switch, and Non-Switch Trials', fontsize = 26, fontweight = "bold")
+ax2.set_ylabel('RT (ms)', fontsize = 20)
+ax2.set_xlabel('Trial Type', fontsize = 20)
 ax2.xaxis.labelpad = 7.5
 ax2.set_xticks(r2)
 ax2.tick_params(axis='x', which = 'major', pad = 2.5) #controls how far labels are from axis
-ax2.set_xticklabels(('Pure', 'Nonswitch Alt Run', 'Nonswitch Rand', 'Switch Alt Run', 'Switch Rand'), fontsize = 10)
+ax2.set_xticklabels(('Pure', 'NS Alt Run', 'NS Rand', 'Switch Alt Run', 'Switch Rand'), fontsize = 20)
 ax2.legend(loc = "upper left")
 
 ##Tau
 ####Plot Tau####
 ##make the plot
-rects1 = ax3.bar(r1, bars7, width = barwidth, yerr = ya_t_conf2, capsize = 3, color = 'w', edgecolor = 'k',
+rects1 = ax3.bar(r1, bars7, width = barwidth, yerr = ya_t_conf2, capsize = 3, color = 'silver', edgecolor = 'k',
                 label ='Younger Adults')
 
-rects2 = ax3.bar(r2, bars8, width = barwidth, yerr = healthy_t_conf2, capsize = 3, color = 'silver', edgecolor = 'k',
+rects2 = ax3.bar(r2, bars8, width = barwidth, yerr = healthy_t_conf2, capsize = 3, color = 'dodgerblue', edgecolor = 'k',
                 label = 'Healthy Older')
 
-rects3 = ax3.bar(r3, bars9, width = barwidth, yerr = mci_t_conf2, capsize = 3, color = 'dimgray', edgecolor = 'k',
+rects3 = ax3.bar(r3, bars9, width = barwidth, yerr = mci_t_conf2, capsize = 3, color = 'Navy', edgecolor = 'k',
                 label = 'MCI Older')
 
 ##Add labels, legend, and set tick marks
-ax3.set_title('Tau: Pure, Switch, and Non-Switch Trials', fontsize = 18)
-ax3.set_ylabel('RT (ms)', fontsize = 16)
-ax3.set_xlabel('Trial Type', fontsize = 16)
+ax3.set_title('Tau: Pure, Switch, and Non-Switch Trials', fontsize = 30, fontweight = "bold")
+ax3.set_ylabel('RT (ms)', fontsize = 26)
+ax3.set_xlabel('Trial Type', fontsize = 26)
 ax3.xaxis.labelpad = 7.5
 ax3.set_xticks(r2)
 ax3.tick_params(axis='x', which = 'major', pad = 2.5) #controls how far labels are from axis
-ax3.set_xticklabels(('Pure', 'Nonswitch Alt Run', 'Nonswitch Rand', 'Switch Alt Run', 'Switch Rand'), fontsize = 10)
-ax3.legend()
+ax3.set_xticklabels(('Pure', 'NS Alt Run', 'NS Rand', 'Switch Alt Run', 'Switch Rand'), fontsize = 23)
+ax3.tick_params(axis='y', labelsize=23)
+
+ax3.legend(borderaxespad = 1, fontsize = 18, frameon = False)
+ax3.set_ylim([0,1200])
 
 ##save
-#error_fig.savefig('Ex_Gauss.pdf', dip = 10000)
+error_fig.savefig('Ex_Gauss.png', dip = 10000)

@@ -48,7 +48,7 @@ mci_conf2 = mci_conf.tolist()
 ##set up the plot
 RT_fig = plt.figure()
 RT_fig.set_size_inches(18,12)
-RT_fig.subplots_adjust(hspace=.35)
+RT_fig.subplots_adjust(hspace=.45)
 
 ####First, lets plot errors for pure, nonswitch, and switch trials
 bars1 = ya_average2
@@ -83,18 +83,18 @@ rects3 = ax1.bar(r3, bars3, width = barwidth, yerr = mci_conf2, capsize = 3, col
                 label = 'MCI Older')
 
 ##Add labels, legend, and set tick marks
-ax1.set_title('Reaction Times: Pure, Switch, and Non-Switch Trials', fontsize = 26)
-ax1.set_ylabel('Mean RT', fontsize = 20)
-ax1.set_xlabel('Trial Type', fontsize = 20)
+ax1.set_title('Reaction Times: Pure, Switch, and Non-Switch Trials', fontsize = 30, fontweight = "bold")
+ax1.set_ylabel('Mean RT', fontsize = 26)
+ax1.set_xlabel('Trial Type', fontsize = 26)
 ax1.xaxis.labelpad = 7.5
 ax1.set_xticks(r2)
 ax1.tick_params(axis='x', which = 'major', pad = 2.5) #controls how far labels are from axis
-ax1.set_xticklabels(('Pure', 'NS Alt Run', 'NS Rand', 'Switch Alt Run', 'Switch Rand'), fontsize = 16)
+ax1.set_xticklabels(('Pure', 'NS Alt Run', 'NS Rand', 'Switch Alt Run', 'Switch Rand'), fontsize = 23)
 box = ax1.get_position()
 #ax1.set_position([box.x0, box.y0, box.width * 0.8, box.height])
-ax1.legend(borderaxespad = 1, fontsize = 14, frameon = False)
-ax1.set_ylim([0,3200])
-ax1.tick_params(axis='y', labelsize=16)
+ax1.legend(borderaxespad = 1, fontsize = 18, frameon = False)
+ax1.set_ylim([0,3900])
+ax1.tick_params(axis='y', labelsize=23)
 
 ####Now make the graph for local vs global costs####
 ##get only the variables that are needed
@@ -144,19 +144,19 @@ rects6 = ax2.bar(r6, bars6, width = barwidth2, yerr = mci_conf4, capsize = 3, co
                 label = 'MCI Older')
 
 ##Add labels, legend, and set tick marks
-ax2.set_title('Reaction Times: Local and Global Switch Costs', fontsize = 26)
-ax2.set_ylabel('Mean RT', fontsize = 20)
-ax2.set_xlabel('Cost Type', fontsize = 20)
+ax2.set_title('Reaction Times: Local and Global Switch Costs', fontsize = 30, fontweight = "bold")
+ax2.set_ylabel('Mean RT', fontsize = 26)
+ax2.set_xlabel('Cost Type', fontsize = 26)
 ax2.xaxis.labelpad = 7.5
 ax2.set_xticks(r5)
 ax2.tick_params(axis='x', which = 'major', pad = 2.5) #controls how far labels are from axis
-ax2.set_xticklabels(('Global Alt Run', 'Global Rand', 'Local Alt Run', 'Local Rand'), fontsize = 16)
+ax2.set_xticklabels(('Global Alt Run', 'Global Rand', 'Local Alt Run', 'Local Rand'), fontsize = 23)
 box = ax2.get_position()
 #ax2.set_position([box.x0, box.y0, box.width * 0.8, box.height])
-ax2.legend(borderaxespad = 1, fontsize = 14, frameon = False)
+ax2.legend(borderaxespad = 1, fontsize = 18, frameon = False)
 #ax2.set_ylim([-15, 20])
 plt.axhline(y = 0, color='k', linestyle='-')
-ax2.tick_params(axis='y', labelsize=16)
+ax2.tick_params(axis='y', labelsize=23)
 
 ##save figure
 RT_fig.savefig('CVOE_RTs.png', dip = 10000)
