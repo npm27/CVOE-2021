@@ -10,7 +10,7 @@ dat['diff2'] = dat['diff'].div(2)
 
 ##set up the initial plot
 fig = plt.figure()
-fig.set_size_inches(25,15)
+fig.set_size_inches(28,20)
 
 fig.subplots_adjust(hspace=.40)
 
@@ -58,14 +58,14 @@ ax1.plot(x3, y3, marker = 'v', color = 'navy', label='MCI Older')
 ax1.errorbar(x3, y3, yerr = (temp_mci['diff2']), fmt='none', c= 'navy', capsize=5)
 
 ##Make the plot spiffy
-ax1.set_title('Alternating Runs', fontsize = 34, fontweight = 'bold')
-ax1.set_ylabel('Mean RT (ms)', fontsize = 28)
-ax1.set_xlabel('Vincentile Bin', fontsize = 28)
-ax1.tick_params(axis='x', labelsize = 28)
-ax1.tick_params(axis='y', labelsize = 28)
+ax1.set_title('Alternating Runs', fontsize = 36, fontweight = 'bold')
+ax1.set_ylabel('Mean RT (ms)', fontsize = 34)
+ax1.set_xlabel('Vincentile Bin', fontsize = 34)
+ax1.tick_params(axis='x', labelsize = 30)
+ax1.tick_params(axis='y', labelsize = 30)
 
-#ax1.set_ylim([0, 2500])
-ax1.legend(borderaxespad = 1, fontsize = 18, frameon = False)
+ax1.set_ylim([-400, 400])
+ax1.legend(borderaxespad = 1, fontsize = 24, frameon = False)
 
 ##Random Local
 temp_ya = rand_L[rand_L['Group'] == 'YA']
@@ -94,14 +94,14 @@ ax2.plot(x3, y3, marker = 'v', color = 'navy', label='MCI Older')
 ax2.errorbar(x3, y3, yerr = (temp_mci['diff2']), fmt='none', c= 'navy', capsize=5)
 
 ##Make the plot spiffy
-ax2.set_title('Random', fontsize = 34, fontweight = 'bold')
+ax2.set_title('Random', fontsize = 36, fontweight = 'bold')
 #ax2.set_ylabel('Mean RT (ms)', fontsize = 28)
-ax2.set_xlabel('Vincentile Bin', fontsize = 28)
-ax2.tick_params(axis='x', labelsize = 28)
-ax2.tick_params(axis='y', labelsize = 28)
+ax2.set_xlabel('Vincentile Bin', fontsize = 34)
+ax2.tick_params(axis='x', labelsize = 30)
+ax2.tick_params(axis='y', labelsize = 30)
 
-ax2.set_ylim([-50, 400])
-ax2.legend(borderaxespad = 1, fontsize = 18, frameon = False)
+ax2.set_ylim([-250, 500])
+ax2.legend(borderaxespad = 1, fontsize = 24, frameon = False)
 
 ##Alt Global
 temp_ya = alt_G[alt_G['Group'] == 'YA']
@@ -130,14 +130,14 @@ ax3.plot(x3, y3, marker = 'v', color = 'navy', label='MCI Older')
 ax3.errorbar(x3, y3, yerr = (temp_mci['diff2']), fmt='none', c= 'navy', capsize=5)
 
 ##Make the plot spiffy
-ax3.set_title('Alternating Runs', fontsize = 34, fontweight = 'bold')
-ax3.set_ylabel('Mean RT (ms)', fontsize = 28)
-ax3.set_xlabel('Vincentile Bin', fontsize = 28)
-ax3.tick_params(axis='x', labelsize = 28)
-ax3.tick_params(axis='y', labelsize = 28)
+ax3.set_title('Alternating Runs', fontsize = 36, fontweight = 'bold')
+ax3.set_ylabel('Mean RT (ms)', fontsize = 34)
+ax3.set_xlabel('Vincentile Bin', fontsize = 34)
+ax3.tick_params(axis='x', labelsize = 30)
+ax3.tick_params(axis='y', labelsize = 30)
 
-ax3.set_ylim([0, 2500])
-ax3.legend(borderaxespad = 1, fontsize = 18, frameon = False)
+ax3.set_ylim([0, 2300])
+ax3.legend(borderaxespad = 1, fontsize = 24, frameon = False)
 
 ##Rand GLOBAL
 temp_ya = rand_G[rand_G['Group'] == 'YA']
@@ -166,14 +166,14 @@ ax4.plot(x3, y3, marker = 'v', color = 'navy', label='MCI Older')
 ax4.errorbar(x3, y3, yerr = (temp_mci['diff2']), fmt='none', c= 'navy', capsize=5)
 
 ##Make the plot spiffy
-ax4.set_title('Random', fontsize = 34, fontweight = 'bold')
+ax4.set_title('Random', fontsize = 36, fontweight = 'bold')
 #ax4.set_ylabel('Mean RT (ms)', fontsize = 28)
-ax4.set_xlabel('Vincentile Bin', fontsize = 28)
-ax4.tick_params(axis='x', labelsize = 28)
-ax4.tick_params(axis='y', labelsize = 28)
+ax4.set_xlabel('Vincentile Bin', fontsize = 34)
+ax4.tick_params(axis='x', labelsize = 32)
+ax4.tick_params(axis='y', labelsize = 32)
 
 ax4.set_ylim([0, 2300])
-ax4.legend(borderaxespad = 1, fontsize = 18, frameon = False)
+ax4.legend(borderaxespad = 1, fontsize = 24, frameon = False)
 
 #fig.legend()
 

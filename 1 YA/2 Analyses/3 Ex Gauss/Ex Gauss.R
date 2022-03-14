@@ -223,3 +223,203 @@ final_rand_switch = data.frame(parameter, Average, Upper, Lower, Trial_Type)
 final = rbind(final_pure, final_alt_ns, final_alt_switch, final_rand_ns, final_rand_switch)
 
 #write.csv(final, file = "Plots/ex_gauss_ya.csv", row.names = F)
+
+####Get the costs####
+##global
+#ns - p
+
+###rand global
+##start w/ pure
+mu = c()
+sigma = c()
+tau = c()
+
+#do pure first
+for(i in unique(pure$Subject)){
+  
+  temp = subset(pure, pure$Subject == i)
+  temp2 = (timefit(temp$RT))
+  
+  mu = c(mu, temp2@par[1])
+  sigma = c(sigma, temp2@par[2])
+  tau = c(tau, temp2@par[3])
+  
+}
+
+#now rand ns
+mu2 = c()
+sigma2 = c()
+tau2 = c()
+
+for(i in unique(rand_ns$Subject)){
+  
+  temp = subset(rand_ns, rand_ns$Subject == i)
+  temp2 = (timefit(temp$RT))
+  
+  mu2 = c(mu2, temp2@par[1])
+  sigma2 = c(sigma2, temp2@par[2])
+  tau2 = c(tau2, temp2@par[3])
+  
+}
+
+##Get the difference
+mu3 = mu2 - mu
+sigma3 = sigma2 - sigma
+tau3 = tau2 - tau
+
+##get means, uppers, lowers
+CIm3 = (sd(mu3) / sqrt(length(mu3))) * 1.96
+CIs3 = (sd(sigma3) / sqrt(length(mu3))) * 1.96
+CIt3 = (sd(tau3) / sqrt(length(mu3))) * 1.96
+
+parameter = c("mu", "sigma", "tau")
+Average = c(mean(mu3), mean(sigma3), mean(tau3))
+Upper = c(mean(mu3) + CIm, mean(sigma3) + CIs, mean(tau3) + CIt)
+Lower = c(mean(mu3) - CIm, mean(sigma3) - CIs, mean(tau3) - CIt)
+Trial_Type = rep("rand_global", times = 3)
+
+final_rand_global = data.frame(parameter, Average, Upper, Lower, Trial_Type)
+
+##alt global
+#get the alt ns
+mu2 = c()
+sigma2 = c()
+tau2 = c()
+
+for(i in unique(alt_ns$Subject)){
+  
+  temp = subset(alt_ns, alt_ns$Subject == i)
+  temp2 = (timefit(temp$RT))
+  
+  mu2 = c(mu2, temp2@par[1])
+  sigma2 = c(sigma2, temp2@par[2])
+  tau2 = c(tau2, temp2@par[3])
+  
+}
+
+##Get the difference
+mu3 = mu2 - mu
+sigma3 = sigma2 - sigma
+tau3 = tau2 - tau
+
+##get means, uppers, lowers
+CIm3 = (sd(mu3) / sqrt(length(mu3))) * 1.96
+CIs3 = (sd(sigma3) / sqrt(length(mu3))) * 1.96
+CIt3 = (sd(tau3) / sqrt(length(mu3))) * 1.96
+
+parameter = c("mu", "sigma", "tau")
+Average = c(mean(mu3), mean(sigma3), mean(tau3))
+Upper = c(mean(mu3) + CIm, mean(sigma3) + CIs, mean(tau3) + CIt)
+Lower = c(mean(mu3) - CIm, mean(sigma3) - CIs, mean(tau3) - CIt)
+Trial_Type = rep("alt_global", times = 3)
+
+final_alt_global = data.frame(parameter, Average, Upper, Lower, Trial_Type)
+
+##local
+#s - ns
+##rand local
+mu = c()
+sigma = c()
+tau = c()
+
+#do switch first
+for(i in unique(rand_switch$Subject)){
+  
+  temp = subset(rand_switch, rand_switch$Subject == i)
+  temp2 = (timefit(temp$RT))
+  
+  mu = c(mu, temp2@par[1])
+  sigma = c(sigma, temp2@par[2])
+  tau = c(tau, temp2@par[3])
+  
+}
+
+#now rand ns
+mu2 = c()
+sigma2 = c()
+tau2 = c()
+
+for(i in unique(rand_ns$Subject)){
+  
+  temp = subset(rand_ns, rand_ns$Subject == i)
+  temp2 = (timefit(temp$RT))
+  
+  mu2 = c(mu2, temp2@par[1])
+  sigma2 = c(sigma2, temp2@par[2])
+  tau2 = c(tau2, temp2@par[3])
+  
+}
+
+##Get the difference
+mu3 = mu2 - mu
+sigma3 = sigma2 - sigma
+tau3 = tau2 - tau
+
+##get means, uppers, lowers
+CIm3 = (sd(mu3) / sqrt(length(mu3))) * 1.96
+CIs3 = (sd(sigma3) / sqrt(length(mu3))) * 1.96
+CIt3 = (sd(tau3) / sqrt(length(mu3))) * 1.96
+
+parameter = c("mu", "sigma", "tau")
+Average = c(mean(mu3), mean(sigma3), mean(tau3))
+Upper = c(mean(mu3) + CIm, mean(sigma3) + CIs, mean(tau3) + CIt)
+Lower = c(mean(mu3) - CIm, mean(sigma3) - CIs, mean(tau3) - CIt)
+Trial_Type = rep("rand_local", times = 3)
+
+final_rand_local = data.frame(parameter, Average, Upper, Lower, Trial_Type)
+
+#alt local
+mu = c()
+sigma = c()
+tau = c()
+
+#do switch first
+for(i in unique(alt_switch$Subject)){
+  
+  temp = subset(alt_switch, alt_switch$Subject == i)
+  temp2 = (timefit(temp$RT))
+  
+  mu = c(mu, temp2@par[1])
+  sigma = c(sigma, temp2@par[2])
+  tau = c(tau, temp2@par[3])
+  
+}
+
+#now rand ns
+mu2 = c()
+sigma2 = c()
+tau2 = c()
+
+for(i in unique(alt_ns$Subject)){
+  
+  temp = subset(alt_ns, alt_ns$Subject == i)
+  temp2 = (timefit(temp$RT))
+  
+  mu2 = c(mu2, temp2@par[1])
+  sigma2 = c(sigma2, temp2@par[2])
+  tau2 = c(tau2, temp2@par[3])
+  
+}
+
+##Get the difference
+mu3 = mu2 - mu
+sigma3 = sigma2 - sigma
+tau3 = tau2 - tau
+
+##get means, uppers, lowers
+CIm3 = (sd(mu3) / sqrt(length(mu3))) * 1.96
+CIs3 = (sd(sigma3) / sqrt(length(mu3))) * 1.96
+CIt3 = (sd(tau3) / sqrt(length(mu3))) * 1.96
+
+parameter = c("mu", "sigma", "tau")
+Average = c(mean(mu3), mean(sigma3), mean(tau3))
+Upper = c(mean(mu3) + CIm, mean(sigma3) + CIs, mean(tau3) + CIt)
+Lower = c(mean(mu3) - CIm, mean(sigma3) - CIs, mean(tau3) - CIt)
+Trial_Type = rep("alt_local", times = 3)
+
+final_alt_local = data.frame(parameter, Average, Upper, Lower, Trial_Type)
+
+##Combine and write to file
+final_costs = rbind(final_alt_global, final_alt_local, final_rand_global, final_rand_local)
+
+#write.csv(final_costs, file = "Plots/ex_gauss_costs_ya.csv", row.names = F)
