@@ -229,3 +229,4 @@ Final4 = cbind(means_long2, upper_long2, lower_long2)
 Final4 = Final4[ , -c(4:5, 7:8)]
 
 #write.csv(Final4, file = "Plots/vincentiles_costs.csv", row.names = F)
+#write.csv(costs2, file = "ya costs analysis.csv", row.names = F)

@@ -191,6 +191,8 @@ costs2 = melt(costs,
 
 colnames(costs2)[3:4] = c("type", "mean")
 
+#write.csv(costs, file = "Healthy_costs_analyses.csv", row.names = F)
+
 ##get mean costs and 95% CIs
 ##Okay, get the mean
 means3 = tapply(costs2$mean, list(costs2$type, costs2$bin), mean)
@@ -415,3 +417,5 @@ Final4 = Final4[ , -c(4:5, 7:8)]
 #write.csv(Final2, file = "MCI_vincentiles.csv", row.names = F)
 #write.csv(Final3, file = "healthy_vincentiles_costs.csv", row.names = F)
 #write.csv(Final4, file = "MCI_vincentiles_costs.csv", row.names = F)
+
+#write.csv(costs2, file = "MCI_costs_analyses.csv", row.names = F)
