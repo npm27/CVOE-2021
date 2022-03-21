@@ -228,6 +228,11 @@ tapply(error_costs$Error, error_costs$Cost, mean)
 
 tapply(error_costs$Error, list(error_costs$presentation, error_costs$Cost), mean) #interaction
 
+#post hoc here
+error_costs_ph = cast(error_costs, subID ~ presentation, mean)
+mean(error_costs_ph$alt)
+mean(error_costs_ph$rand)
+
 ####RT ANOVAs####
 summary(RTs)
 
@@ -262,30 +267,137 @@ tapply(RTs1.long$RTs, RTs1.long$Type, mean) #main effect type
 #set up for t-tests
 Rts_ph = cast(RTs1.long, subID ~ Type, mean)
 
-##pure ####STOPPED HERE####
+##pure
 #pure vs alt switch
-temp = t.test(errors_ph$pure_block_errors, errors_ph$alt_switch_errors, paired = T, p.adjust.methods = "bonferroni", var.equal = T)
+temp = t.test(Rts_ph$pure_RT, Rts_ph$switch_altrun_rt, paired = T, p.adjust.methods = "bonferroni", var.equal = T)
+temp
+round(temp$p.value, 3)
+temp$statistic
+(temp$conf.int[2] - temp$conf.int[1]) / 3.92 #SIG
+
+#pure vs alt ns
+temp = t.test(Rts_ph$pure_RT, Rts_ph$non_altrun_rt, paired = T, p.adjust.methods = "bonferroni", var.equal = T)
 temp
 round(temp$p.value, 3)
 temp$statistic
 (temp$conf.int[2] - temp$conf.int[1]) / 3.92
 
-#pure vs alt ns
-
 #pure vs rand switch
+temp = t.test(Rts_ph$pure_RT, Rts_ph$switch_rand_rt, paired = T, p.adjust.methods = "bonferroni", var.equal = T)
+temp
+round(temp$p.value, 3)
+temp$statistic
+(temp$conf.int[2] - temp$conf.int[1]) / 3.92
 
 #pure vs rand ns
+temp = t.test(Rts_ph$pure_RT, Rts_ph$non_rand_rt, paired = T, p.adjust.methods = "bonferroni", var.equal = T)
+temp
+round(temp$p.value, 3)
+temp$statistic
+(temp$conf.int[2] - temp$conf.int[1]) / 3.92
+
+###Alt switch error
+temp = t.test(Rts_ph$switch_altrun_rt, Rts_ph$non_altrun_rt, paired = T, p.adjust.methods = "bonferroni", var.equal = T)
+temp
+round(temp$p.value, 3)
+temp$statistic
+(temp$conf.int[2] - temp$conf.int[1]) / 3.92
+
+temp = t.test(Rts_ph$switch_altrun_rt, Rts_ph$switch_rand_rt, paired = T, p.adjust.methods = "bonferroni", var.equal = T)
+temp
+round(temp$p.value, 3)
+temp$statistic
+(temp$conf.int[2] - temp$conf.int[1]) / 3.92 #non-sig
+
+temp = t.test(Rts_ph$switch_altrun_rt, Rts_ph$non_rand_rt, paired = T, p.adjust.methods = "bonferroni", var.equal = T)
+temp
+round(temp$p.value, 3)
+temp$statistic
+(temp$conf.int[2] - temp$conf.int[1]) / 3.92
+
+##alt non-switch
+temp = t.test(Rts_ph$non_altrun_rt, Rts_ph$switch_rand_rt, paired = T, p.adjust.methods = "bonferroni", var.equal = T)
+temp
+round(temp$p.value, 3)
+temp$statistic
+(temp$conf.int[2] - temp$conf.int[1]) / 3.92
+
+temp = t.test(Rts_ph$non_altrun_rt, Rts_ph$non_rand_rt, paired = T, p.adjust.methods = "bonferroni", var.equal = T)
+temp
+round(temp$p.value, 3)
+temp$statistic
+(temp$conf.int[2] - temp$conf.int[1]) / 3.92
+
+mean(Rts_ph$non_altrun_rt); mean(Rts_ph$non_rand_rt)
+sd(Rts_ph$non_altrun_rt); sd(Rts_ph$non_rand_rt)
+
+##rand switch
+temp = t.test(Rts_ph$switch_rand_rt, Rts_ph$non_rand_rt, paired = T, p.adjust.methods = "bonferroni", var.equal = T)
+temp
+round(temp$p.value, 3)
+temp$statistic
+(temp$conf.int[2] - temp$conf.int[1]) / 3.92
+
+#get pbic
+pbic1 = Rts_ph[ , c(1, 3)]
+pbic1$pres = rep("alt")
+
+colnames(pbic1)[2] = "cost"
+
+pbic2 = Rts_ph[ , c(1, 5)]
+pbic2$pres = rep("rand")
+
+colnames(pbic2)[2] = "cost"
+
+pbic3 = rbind(pbic1, pbic2)
+
+model_pbic = ezANOVA(pbic3,
+                     dv = cost,
+                     wid = subID,
+                     within = pres,
+                     detailed = T,
+                     type = 3)
+model_pbic
 
 ##Switch costs
 ##anova time!
-ezANOVA(RTs2.long,
-        within = Type,
-        dv = RTs,
-        wid = subID,
-        type = 3,
-        detailed = T)
+#start w/ rand
+RTs2_rand = RTs2[ , c(1, 3, 5)]
 
-####Rt Post-hocs####
-tapply(RTs2.long$RTs, RTs2.long$Type, mean) #main effect type
+colnames(RTs2_rand)[2:3] = c("global", "local")
+
+RTs2_rand$presentation = rep("rand")
+
+RTs2_rand.long = melt(RTs2_rand,
+                        measure.vars = c("global", "local"))
+
+colnames(RTs2_rand.long)[3:4] = c("Cost", "RTs")
+
+#now do alt
+RTs2_alt = RTs2[ , c(1, 2, 4)]
+
+colnames(RTs2_alt)[2:3] = c("global", "local")
+
+RTs2_alt$presentation = rep("alt")
+
+RTs2_alt.long = melt(RTs2_alt,
+                       measure.vars = c("global", "local"))
+
+colnames(RTs2_alt.long)[3:4] = c("Cost", "RTs")
+
+#combine
+RTs_costs = rbind(RTs2_alt.long, RTs2_rand.long)
+
+model4 = ezANOVA(RTs_costs,
+                 within = .(presentation, Cost),
+                 dv = RTs,
+                 wid = subID,
+                 type = 3,
+                 detailed = T)
+
+model4$ANOVA$MSE = model4$ANOVA$SSd/model4$ANOVA$DFd
+model4$ANOVA$MSE
+
+model4
 
 ##t-tests here
