@@ -68,7 +68,7 @@ dat.trimmed2 = subset(dat.trimmed,
 
 ##what percent of the data is this?
 removed = nrow(dat) - nrow(dat.trimmed2)
-p = removed / nrow(dat)
+p = removed / nrow(dat) * 100
 p
 
 #write to csv

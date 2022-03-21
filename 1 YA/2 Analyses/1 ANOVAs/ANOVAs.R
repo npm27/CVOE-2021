@@ -400,4 +400,37 @@ model4$ANOVA$MSE
 
 model4
 
+#main effect presentation
+tapply(RTs_costs$RTs, RTs_costs$Cost, mean)
+
+#interaction
+tapply(RTs_costs$RTs, list(RTs_costs$Cost, RTs_costs$presentation), mean)
+
 ##t-tests here
+RT_global = subset(RTs_costs,
+                   RTs_costs$Cost == "global")
+RT_local = subset(RTs_costs,
+                   RTs_costs$Cost == "local")
+
+RT_global_ph = cast(RT_global, subID ~ presentation, mean)
+RT_local_ph = cast(RT_local, subID ~ presentation, mean)
+
+#global costs
+temp = t.test(RT_global_ph$alt, RT_global_ph$rand, paired = T, p.adjust.methods = "bonferroni", var.equal = T)
+temp
+round(temp$p.value, 3)
+temp$statistic
+(temp$conf.int[2] - temp$conf.int[1]) / 3.92
+
+mean(RT_global_ph$alt); mean(RT_global_ph$rand)
+sd(RT_global_ph$alt); sd(RT_global_ph$rand)
+
+#local costs
+temp = t.test(RT_local_ph$alt, RT_local_ph$rand, paired = T, p.adjust.methods = "bonferroni", var.equal = T)
+temp
+round(temp$p.value, 3)
+temp$statistic
+(temp$conf.int[2] - temp$conf.int[1]) / 3.92
+
+mean(RT_local_ph$alt); mean(RT_local_ph$rand)
+sd(RT_local_ph$alt); sd(RT_local_ph$rand)

@@ -105,6 +105,7 @@ Final = cbind(means_long, upper_long, lower_long)
 Final = Final[ , -c(4:5, 7:8)]
 
 #write.csv(Final, file = "Plots/vincentiles.csv", row.names = F)
+#write.csv(data3, file = "vin trials data.csv", row.names = F)
 
 ####Switch Costs####
 bin1 = subset(data3,
