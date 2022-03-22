@@ -434,3 +434,26 @@ temp$statistic
 
 mean(RT_local_ph$alt); mean(RT_local_ph$rand)
 sd(RT_local_ph$alt); sd(RT_local_ph$rand)
+
+####Get values for tables####
+##Table 1 (errors)
+tapply(error1.long$Error, error1.long$Type, mean) #main effect type
+((apply(errors_ph[ , -1], 2, sd) / sqrt(length(unique(errors_ph$subID)))) * 1.96)
+
+##Table 1(RTs)
+tapply(RTs1.long$RTs, RTs1.long$Type, mean) #main effect type
+((apply(Rts_ph[ , -1], 2, sd) / sqrt(length(unique(Rts_ph$subID)))) * 1.96)
+
+##Table 2 (error costs)
+tapply(error_costs$Error, list(error_costs$Cost, error_costs$presentation), mean) #main effect type
+
+x = tapply(error_costs$Error, list(error_costs$Cost, error_costs$presentation), sd) #main effect type
+
+(x / sqrt(89)) * 1.96
+
+##Table 2 (RT costs)
+tapply(RTs_costs$RTs, list(RTs_costs$Cost, RTs_costs$presentation), mean) #main effect type
+
+x = tapply(RTs_costs$RTs, list(RTs_costs$Cost, RTs_costs$presentation), sd) #main effect type
+
+(x / sqrt(89)) * 1.96
