@@ -24,37 +24,6 @@ model1$ANOVA$MSE
 
 model1
 
-dat2 = subset(dat,
-              dat$type != "pure")
-
-model2 = ezANOVA(dat2,
-                 wid = Subject,
-                 within = .(type, bin),
-                 dv = mean,
-                 type = 3,
-                 detailed = T)
-
-model2$ANOVA$MSE = model2$ANOVA$SSd/model2$ANOVA$DFd
-model2$ANOVA$MSE
-
-model2
-
-dat3 = cSplit(dat2, "type", "_")
-
-colnames(dat3)[4:5] = c("presentation", "trial")
-
-model3 = ezANOVA(dat3,
-                 wid = Subject,
-                 within = .(trial, bin, presentation),
-                 dv = mean,
-                 type = 3,
-                 detailed = T)
-
-model3$ANOVA$MSE = model3$ANOVA$SSd/model3$ANOVA$DFd
-model3$ANOVA$MSE
-
-model3
-
 ####Now for Costs####
 dat4 = read.csv("ya costs analysis.csv")
 
@@ -104,7 +73,7 @@ tapply(dat7$mean, list(dat7$bin, dat7$presentation), mean)
 
 model6 = ezANOVA(dat7,
                  wid = Subject,
-                 within = .(bin, presentation),
+                 between = .(bin, presentation),
                  dv = mean,
                  detailed = T,
                  type = 3)
