@@ -125,5 +125,3 @@ upper2 = m2 + (tapply(dat6$mean, list(dat6$bin, dat6$presentation), sd) /
                      sqrt(length(unique(dat6$Subject)))) * 1.96
 
 m2;upper2;lower2
-
-
