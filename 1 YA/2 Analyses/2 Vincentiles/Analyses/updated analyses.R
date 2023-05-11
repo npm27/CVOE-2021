@@ -6,6 +6,7 @@ options(scipen = 999)
 library(ez)
 library(reshape)
 library(splitstackshape)
+library(psychReport)
 
 tapply(dat$mean, dat$type, mean)
 tapply(dat$mean, dat$bin, mean)
@@ -25,6 +26,8 @@ model1$ANOVA$MSE = model1$ANOVA$SSd/model1$ANOVA$DFd
 model1$ANOVA$MSE
 
 model1
+
+aovEffectSize(model1, effectSize = "pes")
 
 ####Now for Costs####
 dat4 = read.csv("ya costs analysis.csv")
@@ -47,6 +50,8 @@ model4$ANOVA$MSE = model4$ANOVA$SSd/model4$ANOVA$DFd
 model4$ANOVA$MSE
 
 model4 #three-way is sig!
+
+aovEffectSize(model4, effectSize = "pes")
 
 ##And do local costs
 dat6 = subset(dat5,

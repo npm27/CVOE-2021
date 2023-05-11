@@ -3,6 +3,7 @@
 #libraries
 library(ez)
 library(reshape)
+library(psychReport)
 
 options(scipen = 999)
 
@@ -265,6 +266,8 @@ model1$ANOVA$MSE
 
 model1
 
+aovEffectSize(model1, effectSize = "pes")
+
 #post-hoc
 posthoc1 = cast(tau, ID ~ trial, mean)
 
@@ -383,3 +386,5 @@ model2$ANOVA$MSE = model2$ANOVA$SSd/model2$ANOVA$DFd
 model2$ANOVA$MSE
 
 model2
+
+aovEffectSize(model2, effectSize = "pes")
