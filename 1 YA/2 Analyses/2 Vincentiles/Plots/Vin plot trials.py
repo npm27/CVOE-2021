@@ -33,14 +33,14 @@ ax1.errorbar(x1, y1, yerr = (pure['diff2']), fmt='none', c= 'k', capsize=5)
 x2 = alt_ns.bin.values
 y2 = alt_ns.Average.values
 
-ax1.plot(x2, y2, '--', marker = 's', color = 'k', label='Alt Non-Switch')
+ax1.plot(x2, y2, '--', marker = 's', color = 'k', label='Predictive Non-Switch')
 ax1.errorbar(x2, y2, yerr = (alt_ns['diff2']), fmt='none', c= 'k', capsize=5)
 
 ##Switch alt
 x3 = alt_switch.bin.values
 y3 = alt_switch.Average.values
 
-ax1.plot(x3, y3, '--', marker = 'd', color = 'dimgray', label='Alt Switch')
+ax1.plot(x3, y3, '--', marker = 'd', color = 'dimgray', label='Predictive Switch')
 ax1.errorbar(x3, y3, yerr = (alt_switch['diff2']), fmt='none', c= 'dimgray', capsize=5)
 
 ##rand ns
@@ -67,4 +67,4 @@ ax1.tick_params(axis='y', labelsize = 18)
 ax1.legend(borderaxespad = 1, fontsize = 18, frameon = False)
 
 fig
-fig.savefig('YA_Vincentiles.png')
+#fig.savefig('YA_Vincentiles.png')

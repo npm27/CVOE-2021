@@ -28,7 +28,7 @@ rand_global = dat[dat['Trial Type'] == "Rand_Global"]
 x2 = alt_local.bin.values
 y2 = alt_local.Average.values
 
-ax1.plot(x2, y2, '-', marker = 's', color = 'black', label='Alternating Runs')
+ax1.plot(x2, y2, '-', marker = 's', color = 'black', label='Predictive')
 ax1.errorbar(x2, y2, yerr = (alt_local['diff2']), fmt='none', c= 'black', capsize=5)
 
 ##rand local
@@ -54,7 +54,7 @@ ax1.legend(borderaxespad = 1, fontsize = 16, frameon = False)
 x4 = alt_global.bin.values
 y4 = alt_global.Average.values
 
-ax2.plot(x4, y4,  '-', marker = 's', color = 'black', label='Alternating Runs')
+ax2.plot(x4, y4,  '-', marker = 's', color = 'black', label='Predictive')
 ax2.errorbar(x4, y4, yerr = (alt_global['diff2']), fmt='none', c= 'black', capsize=5)
 
 ##rand global
@@ -85,7 +85,7 @@ ax1 = fig2.add_subplot(1, 1, 1)
 
 ##plot the things
 #alt local
-ax1.plot(x2, y2, '-', marker = 's', color = 'black', label='Alt. Runs Local Costs')
+ax1.plot(x2, y2, '-', marker = 's', color = 'black', label='Predictive Local Costs')
 ax1.errorbar(x2, y2, yerr = (alt_local['diff2']), fmt='none', c= 'black', capsize=5)
 
 #rand local
@@ -93,7 +93,7 @@ ax1.plot(x3, y3, '--', marker = 's', color = 'black', label='Random Local Costs'
 ax1.errorbar(x3, y3, yerr = (rand_local['diff2']), fmt='none', c= 'black', capsize=5)
 
 #alt global
-ax1.plot(x4, y4,  '-', marker = 'o', color = 'black', label='Alt. Runs Global Costs')
+ax1.plot(x4, y4,  '-', marker = 'o', color = 'black', label='Predictive Global Costs')
 ax1.errorbar(x4, y4, yerr = (alt_global['diff2']), fmt='none', c= 'black', capsize=5)
 
 #rand global
@@ -110,4 +110,4 @@ ax1.tick_params(axis='y', labelsize = 18)
 ax1.legend(borderaxespad = 1, fontsize = 16, frameon = False)
 
 fig2
-fig2.savefig('Vincentiles Costs.png')
+#fig2.savefig('Vincentiles Costs.png')
